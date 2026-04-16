@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Roaring Twenties — A Great Gatsby Webquest</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0DFA0;
+    --gold-dim: rgba(201,168,76,0.18);
+    --gold-border: rgba(201,168,76,0.35);
+    --dark: #0E0B05;
+    --dark-mid: #1C1608;
+    --dark-surface: #231C0A;
+    --dark-card: #2A2110;
+    --cream: #F5EDD8;
+    --cream-dim: rgba(245,237,216,0.7);
+    --cream-muted: rgba(245,237,216,0.45);
+    --muted: rgba(245,237,216,0.28);
+    --completed-bg: rgba(201,168,76,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'EB Garamond', Georgia, serif;
+    background: var(--dark);
+    color: var(--cream);
+    min-height: 100vh;
+    line-height: 1.7;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 40%, rgba(201,168,76,0.08) 0%, transparent 70%),
+      repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(201,168,76,0.02) 40px, rgba(201,168,76,0.02) 41px),
+      repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(201,168,76,0.015) 40px, rgba(201,168,76,0.015) 41px);
+  }
+
+  .hero-ornament {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.8;
+    margin-bottom: 2rem;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--gold-light);
+    margin-bottom: 0.5rem;
+    position: relative;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--cream);
+  }
+
+  .hero-rule {
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    margin: 1.75rem auto;
+  }
+
+  .hero-subtitle {
+    font-size: 1.15rem;
+    color: var(--cream-dim);
+    max-width: 560px;
+    margin: 0 auto 2.5rem;
+    font-style: italic;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 3rem;
+    justify-content: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-stat { text-align: center; }
+  .hero-stat-num {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+  }
+  .hero-stat-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cream-muted);
+    margin-top: 4px;
+    display: block;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    padding: 0.85rem 2.5rem;
+    border: 1px solid var(--gold-border);
+    color: var(--gold-light);
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    cursor: pointer;
+    background: none;
+  }
+  .hero-cta:hover {
+    background: var(--gold-dim);
+    border-color: var(--gold);
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-section {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(14,11,5,0.96);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--gold-border);
+    padding: 0.75rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .progress-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 3px;
+    background: rgba(201,168,76,0.15);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--gold), var(--gold-light));
+    border-radius: 2px;
+    transition: width 0.6s ease;
+    width: 0%;
+  }
+
+  .progress-pct {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    color: var(--gold);
+    min-width: 40px;
+    text-align: right;
+  }
+
+  /* ── NAV TABS ── */
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--gold-border);
+    padding: 0 2rem;
+    background: var(--dark-mid);
+    scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+
+  .nav-tab {
+    padding: 1rem 1.5rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cream-muted);
+    cursor: pointer;
+    border: none;
+    background: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .nav-tab:hover { color: var(--cream-dim); }
+  .nav-tab.active {
+    color: var(--gold-light);
+    border-bottom-color: var(--gold);
+  }
+
+  /* ── OVERVIEW GRID ── */
+  .overview {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  .overview-intro {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .overview-intro h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--gold-light);
+    margin-bottom: 0.75rem;
+  }
+
+  .overview-intro p {
+    color: var(--cream-dim);
+    max-width: 600px;
+    margin: 0 auto;
+    font-style: italic;
+  }
+
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .module-card {
+    background: var(--dark-card);
+    border: 1px solid var(--gold-border);
+    padding: 1.75rem;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .module-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .module-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-2px);
+  }
+
+  .module-card:hover::before { opacity: 1; }
+
+  .module-card.completed {
+    background: var(--completed-bg);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .card-icon {
+    font-size: 1.6rem;
+    line-height: 1;
+  }
+
+  .card-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border: 1px solid var(--gold-border);
+    color: var(--gold);
+  }
+
+  .card-badge.done {
+    background: var(--gold);
+    color: var(--dark);
+    border-color: var(--gold);
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: var(--gold-light);
+    margin-bottom: 0.35rem;
+  }
+
+  .card-subtitle {
+    font-size: 0.9rem;
+    color: var(--cream-muted);
+    font-style: italic;
+    margin-bottom: 1rem;
+  }
+
+  .card-tasks-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .card-task-item {
+    font-size: 0.85rem;
+    color: var(--cream-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-task-item::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  /* ── MODULE DETAIL ── */
+  .module-detail {
+    display: none;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  .module-detail.active { display: block; }
+
+  .detail-header {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--gold-border);
+  }
+
+  .detail-icon {
+    font-size: 2.5rem;
+    width: 70px;
+    height: 70px;
+    background: var(--dark-card);
+    border: 1px solid var(--gold-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .detail-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--gold-light);
+    margin-bottom: 0.25rem;
+  }
+
+  .detail-subtitle {
+    font-size: 1rem;
+    color: var(--cream-muted);
+    font-style: italic;
+  }
+
+  .section-block {
+    margin-bottom: 2.5rem;
+  }
+
+  .section-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--gold-border);
+  }
+
+  .intro-text {
+    font-size: 1.05rem;
+    color: var(--cream-dim);
+    line-height: 1.8;
+  }
+
+  .gatsby-connection {
+    background: var(--dark-surface);
+    border-left: 3px solid var(--gold);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .gatsby-connection .section-label { margin-bottom: 0.75rem; }
+  .gatsby-connection .section-label::after { display: none; }
+
+  .gatsby-connection p {
+    font-size: 0.95rem;
+    color: var(--cream-dim);
+    font-style: italic;
+    line-height: 1.75;
+  }
+
+  /* ── TASKS ── */
+  .task-item {
+    background: var(--dark-surface);
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .task-item:hover { border-color: var(--gold-border); }
+
+  .task-item.done {
+    border-color: rgba(201,168,76,0.4);
+    background: var(--completed-bg);
+  }
+
+  .task-check {
+    width: 22px;
+    height: 22px;
+    border: 1.5px solid rgba(201,168,76,0.4);
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+    transition: all 0.2s;
+  }
+
+  .task-item.done .task-check {
+    background: var(--gold);
+    border-color: var(--gold);
+  }
+
+  .task-check-mark {
+    display: none;
+    color: var(--dark);
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .task-item.done .task-check-mark { display: block; }
+  .task-item.done .task-body { opacity: 0.65; }
+
+  .task-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--gold-light);
+    margin-bottom: 0.35rem;
+    font-weight: 400;
+  }
+
+  .task-desc {
+    font-size: 0.9rem;
+    color: var(--cream-muted);
+    line-height: 1.65;
+    margin-bottom: 0.5rem;
+  }
+
+  .task-tag {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold-border);
+    padding: 2px 8px;
+  }
+
+  /* ── RESOURCES ── */
+  .resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 0.85rem;
+    margin-top: 1rem;
+  }
+
+  .resource-link {
+    display: block;
+    background: var(--dark-surface);
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: 1rem 1.25rem;
+    text-decoration: none;
+    transition: all 0.2s;
+    color: inherit;
+  }
+
+  .resource-link:hover {
+    border-color: var(--gold);
+    background: var(--gold-dim);
+  }
+
+  .resource-type {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 5px;
+  }
+
+  .resource-title {
+    font-size: 0.95rem;
+    color: var(--cream);
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+
+  .resource-desc {
+    font-size: 0.8rem;
+    color: var(--cream-muted);
+    font-style: italic;
+    line-height: 1.45;
+  }
+
+  .resource-arrow {
+    display: inline-block;
+    color: var(--gold);
+    margin-left: 4px;
+    font-style: normal;
+  }
+
+  /* ── REFLECTION ── */
+  .reflection-box {
+    background: var(--dark-surface);
+    border: 1px solid var(--gold-border);
+    padding: 1.75rem;
+    margin-top: 1rem;
+    position: relative;
+  }
+
+  .reflection-box::before {
+    content: '\201C';
+    position: absolute;
+    top: -0.5rem;
+    left: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    color: var(--gold);
+    opacity: 0.4;
+    line-height: 1;
+  }
+
+  .reflection-text {
+    font-size: 1rem;
+    color: var(--cream-dim);
+    font-style: italic;
+    line-height: 1.8;
+    padding-left: 1rem;
+  }
+
+  /* ── BACK BUTTON ── */
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    margin-bottom: 2.5rem;
+    transition: opacity 0.2s;
+  }
+  .back-btn:hover { opacity: 0.7; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    border-top: 1px solid var(--gold-border);
+    color: var(--cream-muted);
+    font-size: 0.85rem;
+    font-style: italic;
+    margin-top: 4rem;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .hero-meta { gap: 1.5rem; }
+    .nav-tab { padding: 0.85rem 1rem; }
+    .modules-grid { grid-template-columns: 1fr; }
+    .resources-grid { grid-template-columns: 1fr; }
+    .detail-header { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div style="position:relative;">
+    <div class="hero-ornament">AP Language &amp; Composition &nbsp;·&nbsp; Historical Context Webquest</div>
+    <h1>The Roaring<br><em>Twenties</em></h1>
+    <div class="hero-rule"></div>
+    <p class="hero-subtitle">Before you can truly understand Gatsby's world, you need to live in it. Six modules. Six lenses. One novel seen whole.</p>
+    <div class="hero-meta">
+      <div class="hero-stat">
+        <span class="hero-stat-num">6</span>
+        <span class="hero-stat-label">Modules</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">18</span>
+        <span class="hero-stat-label">Tasks</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">~90</span>
+        <span class="hero-stat-label">Minutes</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num" id="hero-done">0</span>
+        <span class="hero-stat-label">Completed</span>
+      </div>
+    </div>
+    <button class="hero-cta" onclick="document.getElementById('main').scrollIntoView({behavior:'smooth'})">Begin the Quest</button>
+  </div>
+</section>
+
+<!-- STICKY PROGRESS -->
+<div class="progress-section">
+  <span class="progress-label">Progress</span>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+  <span class="progress-pct" id="progress-pct">0%</span>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="main">
+
+  <!-- NAV TABS -->
+  <nav class="nav-tabs" id="nav-tabs">
+    <button class="nav-tab active" onclick="showOverview()">Overview</button>
+  </nav>
+
+  <!-- OVERVIEW -->
+  <div class="overview" id="overview-panel">
+    <div class="overview-intro">
+      <h2>Six Windows into the Jazz Age</h2>
+      <p>Each module pairs historical primary sources with specific passages and patterns in <em>The Great Gatsby</em>. Work through them in any order — but don't skip the reflection prompts.</p>
+    </div>
+    <div class="modules-grid" id="modules-grid"></div>
+  </div>
+
+  <!-- MODULE DETAIL PANELS (injected by JS) -->
+  <div id="detail-panels"></div>
+
+</div>
+
+<footer>
+  <p>A webquest for AP Language &amp; Composition &nbsp;·&nbsp; <em>The Great Gatsby</em> by F. Scott Fitzgerald (1925)</p>
+  <p style="margin-top:0.5rem; font-size:0.75rem; opacity:0.6;">All linked resources are free and publicly accessible. Progress is saved for this browser session.</p>
+</footer>
+
+<script>
+const MODULES = [
+  {
+    id: 'economy',
+    icon: '💰',
+    title: 'The Jazz Age Economy',
+    subtitle: 'Stock speculation, consumerism, and new money',
+    tasks: ['Trace installment buying and consumer culture', 'Map old money vs. new money', 'Read Hoover\'s 1928 speech against the crash'],
+    intro: 'The 1920s economy was unlike anything America had seen. Mass production, easy credit, and exploding stock markets created fortunes overnight — and a culture obsessed with conspicuous consumption. Understanding this economic landscape is essential to reading Gatsby\'s parties, his shirts, and his lies.',
+    gatsby: 'When Gatsby throws his lavish parties, he isn\'t celebrating — he\'s performing wealth. The "old money" of East Egg and the "new money" of West Egg represent a class divide that Gatsby can never actually cross, no matter how many yellow cars or pink suits he acquires. Tom Buchanan\'s contempt for Gatsby is less personal than structural: it\'s the contempt of inherited wealth for earned wealth, which is really the contempt of security for anxiety.',
+    items: [
+      {
+        label: 'Consumption and credit',
+        desc: 'Research how installment buying and advertising transformed American consumer culture in the 1920s. What did it mean to "live beyond your means" — and who was doing it? Browse 1920s print advertisements in Duke University\'s free Ad*Access archive, then write a paragraph analyzing one ad\'s rhetorical appeals.',
+        tag: 'Research + visual rhetoric'
+      },
+      {
+        label: 'Old money vs. new money',
+        desc: 'Investigate the social distinction between inherited wealth (East Egg) and self-made wealth (West Egg). Using the Library of Congress "Prosperity and Thrift" collection, find one document — a speech, photo, or pamphlet — that illuminates how Americans in the 1920s thought about wealth and respectability.',
+        tag: 'Archive research'
+      },
+      {
+        label: 'The Hoover speech and the crash',
+        desc: 'Read Herbert Hoover\'s 1928 acceptance speech on the American Presidency Project. He famously declared America was "nearer to the final triumph over poverty than ever before." Then consider: this speech was given one year before the 1929 crash. What does the gap between Hoover\'s confidence and the crash reveal about the decade Fitzgerald was capturing?',
+        tag: 'Primary source + close reading'
+      }
+    ],
+    resources: [
+      {
+        type: 'Primary source',
+        title: 'Hoover\'s 1928 Acceptance Speech',
+        desc: 'American Presidency Project — full text',
+        url: 'https://www.presidency.ucsb.edu/documents/address-accepting-the-republican-presidential-nomination-stanford-california'
+      },
+      {
+        type: 'Archive',
+        title: 'Ad*Access — 1920s Print Advertisements',
+        desc: 'Duke University — 7,000+ free ads, 1911–1955',
+        url: 'https://library.duke.edu/rubenstein/hartman/digitized'
+      },
+      {
+        type: 'LOC Collection',
+        title: 'Prosperity and Thrift: The Coolidge Era',
+        desc: 'Library of Congress — photos, speeches, film, audio from the 1920s',
+        url: 'https://www.loc.gov/collections/coolidge-era-and-the-consumer-economy-1921-to-1929/about-this-collection/'
+      }
+    ],
+    reflection: 'In Chapter 1, Nick observes that "everyone suspects himself of at least one of the cardinal virtues, and this is mine: I am one of the few honest people that I have ever known." How does the economic culture of the 1920s — built on credit, performance, and aspiration — complicate the concept of honesty in the novel?'
+  },
+
+  {
+    id: 'prohibition',
+    icon: '🥃',
+    title: 'Prohibition & Organized Crime',
+    subtitle: 'Bootleggers, speakeasies, and Gatsby\'s real business',
+    tasks: ['Research the Volstead Act and enforcement failure', 'Find a speakeasy primary source', 'Connect Arnold Rothstein to Meyer Wolfsheim'],
+    intro: 'The 18th Amendment banned alcohol in 1920 — and made millionaires out of criminals. Prohibition didn\'t stop Americans from drinking; it just pushed the industry underground and into the hands of organized crime. The speakeasy became the social heart of the decade. Estimates of speakeasies in New York City alone range from 30,000 to 100,000.',
+    gatsby: 'Meyer Wolfsheim is not just a shady character — he\'s Fitzgerald\'s stand-in for real organized crime figures like Arnold Rothstein, who fixed the 1919 World Series and ran bootlegging shipments down the Hudson into New York\'s speakeasies. Gatsby\'s unexplained fortune, his "drug stores," his connections: Fitzgerald is telling us exactly where the money came from. He just expects his readers to know the era well enough to read the clues. Contemporary readers didn\'t need footnotes.',
+    items: [
+      {
+        label: 'The Volstead Act in practice',
+        desc: 'How was Prohibition actually enforced — or not? Using the NYC Municipal Archives prohibition blog and the PBS Ken Burns documentary, research the role of corruption in local law enforcement and how bootleggers paid off politicians. Gangsters reportedly paid up to half a million dollars a month in bribes to police, judges, and federal investigators. Find a specific documented case and describe the mechanism of corruption.',
+        tag: 'Research task'
+      },
+      {
+        label: 'Speakeasy culture — the real picture',
+        desc: 'Browse the NYC Municipal Archives prohibition photo collection (NYPD crime photos and police records, free online). Most people imagine glamorous establishments — but the archives tell a different story. Write a paragraph distinguishing between the mythologized speakeasy and the documented reality. How does this gap illuminate Gatsby\'s parties?',
+        tag: 'Primary source + analysis'
+      },
+      {
+        label: 'Arnold Rothstein and Meyer Wolfsheim',
+        desc: 'Read the Britannica biography of Arnold Rothstein and the HISTORY.com article on how Prohibition created organized crime. Rothstein "had such a formidable presence in the criminal underworld that he was reportedly once paid half a million dollars to mediate a gang war." He carried $200,000 in pocket money at all times. Write a close reading of the Wolfsheim scenes in Gatsby using Rothstein as your lens. What is Fitzgerald signaling to his original readers?',
+        tag: 'Character analysis'
+      }
+    ],
+    resources: [
+      {
+        type: 'Archive + Photos',
+        title: 'NYC Municipal Archives: Prohibition Records',
+        desc: '446 NYPD crime photos, police records, mayoral letters — free',
+        url: 'https://www.archives.nyc/blog/2019/3/8/prohibition'
+      },
+      {
+        type: 'Biography',
+        title: 'Arnold Rothstein — Britannica',
+        desc: 'The real Meyer Wolfsheim: gambler, fixer, bootlegger',
+        url: 'https://www.britannica.com/biography/Arnold-Rothstein'
+      },
+      {
+        type: 'Documentary',
+        title: 'PBS: Prohibition, Episode 2 — "A Nation of Scofflaws"',
+        desc: 'Ken Burns — free streaming, covers NYC organized crime',
+        url: 'https://www.pbs.org/video/prohibition-episode-two-a-nation-of-scofflaws/'
+      },
+      {
+        type: 'Article',
+        title: 'How Prohibition Created Organized Crime',
+        desc: 'HISTORY.com — Rothstein, bootlegging, and the mob\'s rise',
+        url: 'https://www.history.com/articles/prohibition-organized-crime-al-capone'
+      },
+      {
+        type: 'Gatsby Context',
+        title: '8 Ways Gatsby Captured the Roaring Twenties',
+        desc: 'HISTORY.com — directly connects Rothstein to Wolfsheim',
+        url: 'https://www.history.com/articles/great-gatsby-roaring-twenties-fitzgerald-dark-side'
+      }
+    ],
+    reflection: 'Fitzgerald never directly states that Gatsby is a bootlegger. Why might he have chosen to leave this implicit? Consider your audience: what does a 1925 reader bring to the text that a reader today must actively reconstruct? What is lost — or gained — when a novel\'s subtext becomes invisible?'
+  },
+
+  {
+    id: 'race',
+    icon: '✊',
+    title: 'Race, the Great Migration & the Harlem Renaissance',
+    subtitle: 'Who was excluded from the American Dream?',
+    tasks: ['Research the Great Migration\'s push and pull factors', 'Read a 1920s issue of The Crisis', 'Analyze Fitzgerald\'s racial silences'],
+    intro: 'The Roaring Twenties were roaring for some Americans — and violently exclusionary for others. While Harlem became the cultural capital of Black America, the Ku Klux Klan was at its largest in American history, with five million members. The same decade produced both the Charleston and the Tulsa Race Massacre. The Harlem Renaissance — the explosion of Black literature, music, and visual art — unfolded in the same streets and years as Gatsby\'s parties.',
+    gatsby: 'Tom Buchanan\'s rant about "The Rise of the Colored Empires" is a direct reference to real white nationalist ideology circulating in the 1920s. Fitzgerald isn\'t endorsing Tom\'s views — but the novel also doesn\'t seriously interrogate them. Notice who is absent from Gatsby\'s parties. Notice George Wilson\'s Valley of Ashes. The novel\'s silences are as telling as its text. Reading it against The Crisis — published the same months as Gatsby\'s composition — reveals what Fitzgerald chose not to see.',
+    items: [
+      {
+        label: 'The Great Migration — push and pull',
+        desc: 'Between 1910 and 1930, over 1.6 million Black Americans moved from the South to Northern cities. Read the PBS overview and the Smithsonian long-form essay. Research what they were fleeing (Jim Crow, racial terror, sharecropping) and what they found (discrimination, opportunity, and the contradiction of the North). Locate the Valley of Ashes in Fitzgerald\'s geography. Who lives there? What does it mean that Gatsby\'s green light shines across from the ash heaps where working-class people labor?',
+        tag: 'Historical context + close reading'
+      },
+      {
+        label: 'Reading The Crisis, 1921–1925',
+        desc: 'Choose ONE of the pinned Crisis issues below and read at least two articles or poems. The June 1921 issue contains Langston Hughes\'s first nationally published poem, "The Negro Speaks of Rivers" — written the same year Fitzgerald began conceiving Gatsby. The April 1925 issue was on newsstands the same month Gatsby was published. Write a paragraph: what does The Crisis reveal about 1920s America that The Great Gatsby does not?',
+        tag: 'Primary source + comparative analysis'
+      },
+      {
+        label: 'The second KKK and Tom Buchanan\'s ideology',
+        desc: 'Research the KKK\'s second rise in the 1920s — this wasn\'t just a Southern organization; it had chapters in Indiana, Oregon, and New York. Then read the Harlem Renaissance Wikipedia overview for context on the cultural movement rising in parallel. Write a close reading of the "Rise of the Colored Empires" passage in Chapter 1. How does Fitzgerald use Tom\'s ideology to characterize him — and what does Nick\'s mild, ironic response (rather than outrage) tell us about Nick?',
+        tag: 'Close reading + character analysis'
+      }
+    ],
+    resources: [
+      {
+        type: 'Primary source — June 1921',
+        title: 'The Crisis: Vol. 22, No. 2 (June 1921)',
+        desc: 'Contains Hughes\'s debut poem "The Negro Speaks of Rivers" — Archive.org',
+        url: 'https://archive.org/details/sim_crisis_1921-06_22_2'
+      },
+      {
+        type: 'Primary source — Nov 1922',
+        title: 'The Crisis: Vol. 25, No. 1 (Nov 1922)',
+        desc: 'Du Bois on KKK resurgence — same year as Gatsby\'s conception',
+        url: 'https://archive.org/details/sim_crisis_1922-11_25_1'
+      },
+      {
+        type: 'Primary source — Sep 1923',
+        title: 'The Crisis: Vol. 26, No. 5 (Sep 1923)',
+        desc: 'Hughes poems incl. "Cabaret" — Harlem performance for white audiences',
+        url: 'https://archive.org/details/sim_crisis_1923-09_26_5'
+      },
+      {
+        type: 'Primary source — Aug 1924',
+        title: 'The Crisis: Vol. 28, No. 4 (Aug 1924)',
+        desc: 'Peak Harlem Renaissance; Dyer Anti-Lynching Bill failure',
+        url: 'https://archive.org/details/sim_crisis_1924-08_28_4'
+      },
+      {
+        type: 'Primary source — Apr 1925',
+        title: 'The Crisis: Vol. 29, No. 6 (Apr 1925)',
+        desc: 'On newsstands the same month Gatsby was published — April 10, 1925',
+        url: 'https://archive.org/details/sim_crisis_1925-04_29_6'
+      },
+      {
+        type: 'Overview',
+        title: 'PBS: What Was the Great Migration?',
+        desc: 'Causes, phases, and legacy — hosted by Henry Louis Gates Jr.',
+        url: 'https://www.pbs.org/articles/what-was-the-great-migration'
+      },
+      {
+        type: 'Long-form essay',
+        title: 'Smithsonian: The Long-Lasting Legacy of the Great Migration',
+        desc: 'Restrictive covenants, redlining, and what migrants found in the North',
+        url: 'https://www.smithsonianmag.com/history/long-lasting-legacy-great-migration-180960118/'
+      },
+      {
+        type: 'Learning collection',
+        title: 'Smithsonian Learning Lab: The Great Migration',
+        desc: 'Objects, images, and documents from the migration period',
+        url: 'https://learninglab.si.edu/collections/the-great-migration-and-black-migration/V3WEd4HuGbycYvmk'
+      }
+    ],
+    reflection: '"Her voice is full of money," Gatsby says of Daisy. Fitzgerald gives this line to Gatsby, but Nick records it — and finds it profound rather than damning. Meanwhile, The Crisis was reporting on lynchings, the failure of anti-lynching legislation, and the KKK\'s march through Indiana. What does it mean to read Gatsby\'s longing as the novel\'s emotional center while the historical record shows what else was happening in America in 1925?'
+  },
+
+  {
+    id: 'gender',
+    icon: '🪭',
+    title: 'The New Woman & the Flapper',
+    subtitle: 'Daisy, Jordan, and female freedom in the Jazz Age',
+    tasks: ['Analyze the flapper as cultural icon', 'Read "Flapper Jane" (1925, primary source)', 'Close read Daisy and Jordan against history'],
+    intro: 'The 1920s produced a radical new feminine archetype: the flapper. Short hair, short skirts, cigarettes, dancing, driving — she was a visual rebuke of Victorian femininity. But the decade also reveals the limits of women\'s liberation: the 19th Amendment passed in 1920, but voting rights didn\'t undo economic dependence, social expectations, or the reality that a woman\'s primary social currency remained her marriageability.',
+    gatsby: 'Daisy Buchanan is not simply a passive object. She\'s a woman who understands her limited options and has made a calculated choice. Jordan Baker — an athlete, an independent woman, a documented liar — represents a different possibility. Reading both characters against the historical context of women\'s lives in the 1920s reveals how much Fitzgerald builds into them. "Her voice is full of money" is not only about class — it\'s about the economy of femininity in a decade when women could vote but still couldn\'t easily leave.',
+    items: [
+      {
+        label: '"Flapper Jane" — a primary source portrait',
+        desc: 'Read Bruce Bliven\'s "Flapper Jane," published in The New Republic, September 9, 1925 — the same year as Gatsby. The article profiles a 19-year-old flapper named Jane with a mixture of admiration and alarm. After reading, write: Is Bliven\'s tone sympathetic or condescending? What does his gaze reveal about how the flapper was seen by educated male contemporaries? How does this complicate your reading of Jordan Baker?',
+        tag: 'Primary source + rhetorical analysis'
+      },
+      {
+        label: 'The limits of liberation',
+        desc: 'The 19th Amendment passed in 1920 — the same year as Prohibition. Research what the vote actually meant for women\'s daily lives, economic power, and social freedom. Use Duke\'s Ad*Access archive to find advertisements from the Beauty & Hygiene category, 1920–1930. How do these ads construct the ideal woman? What do they reveal about the gap between the flapper\'s cultural image and the actual expectations placed on women?',
+        tag: 'Research + visual rhetoric'
+      },
+      {
+        label: 'Daisy and Jordan — close reading with historical lens',
+        desc: 'Select two specific passages — one featuring Daisy, one Jordan. Using what you\'ve learned about women\'s lives in the 1920s, write a close reading of each that illuminates choices that might otherwise seem passive or shallow. Pay particular attention to Daisy\'s famous line about her daughter: "I hope she\'ll be a fool — that\'s the best thing a girl can be in this world, a beautiful little fool." What does a woman in 1925 hear in that line that a modern reader might miss?',
+        tag: 'Close reading'
+      }
+    ],
+    resources: [
+      {
+        type: 'Primary source — 1925',
+        title: '"Flapper Jane" by Bruce Bliven (The New Republic)',
+        desc: 'Full text — published September 9, 1925, same year as Gatsby',
+        url: 'https://newrepublic.com/article/113130/bruce-bliven-interviews-flapper'
+      },
+      {
+        type: 'PDF version',
+        title: '"Flapper Jane" — Classroom-Ready PDF',
+        desc: 'Organization of American Historians — clean, printable version',
+        url: 'https://www.oah.org/site/assets/files/8839/ex5flapperjane.pdf'
+      },
+      {
+        type: 'Archive',
+        title: 'Ad*Access: Beauty & Hygiene Ads, 1920–1930',
+        desc: 'Duke University — browse by category, free access',
+        url: 'https://library.duke.edu/rubenstein/hartman/digitized'
+      }
+    ],
+    reflection: 'Nick describes Jordan as "incurably dishonest" — yet Tom is openly adulterous, Gatsby has fabricated his entire identity, and Nick himself is a deeply unreliable narrator. Why does Jordan\'s dishonesty register differently? What does the novel\'s treatment of female dishonesty versus male dishonesty reveal about the gendered moral economy of the 1920s — and of Nick\'s narration?'
+  },
+
+  {
+    id: 'jazz',
+    icon: '🎷',
+    title: 'Jazz, Music & American Culture',
+    subtitle: 'The soundtrack of excess, longing, and racial appropriation',
+    tasks: ['Listen to Armstrong\'s "West End Blues" and analyze it', 'Read Faulkner\'s 1921 jazz critique', 'Sound-annotate a Gatsby party scene'],
+    intro: 'Jazz wasn\'t just background music in the 1920s — it was a cultural battleground. It emerged from Black musical traditions (blues, ragtime, spirituals) and was simultaneously celebrated as America\'s great art form and condemned as primitive, immoral, and dangerous. Understanding jazz means understanding who created it, who appropriated it, and what it sounded like to ears that had never heard anything like it.',
+    gatsby: 'Fitzgerald uses music carefully. At Gatsby\'s parties, the orchestra plays as a kind of ironic commentary on the spectacle around it. The guests don\'t know each other. They invent rumors about their host. The music plays while across the bay Tom and Daisy dine in their "distinguished secret society." Sound and silence both carry meaning in this novel. The jazz that animates Gatsby\'s world came from Black musicians whose lives looked nothing like the white wealth being displayed around them.',
+    items: [
+      {
+        label: 'Listen: Louis Armstrong\'s "West End Blues" (1928)',
+        desc: 'Stream the original 1928 recording on Internet Archive — it\'s public domain and free. This is one of the most consequential jazz recordings ever made: Armstrong\'s 12-second unaccompanied trumpet introduction demonstrated unprecedented technical skill and musical imagination. Listen at least twice. Then research Armstrong\'s biography: he was navigating Prohibition, segregation, and the Cotton Club\'s "whites-only audience" policy simultaneously. Write: what do you hear differently in the recording when you know that context?',
+        tag: 'Listening + contextual analysis'
+      },
+      {
+        label: 'Read: "Does Jazz Put the Sin in Syncopation?" (1921)',
+        desc: 'Read Anne Shaw Faulkner\'s 1921 Ladies\' Home Journal article — one of the most infamous pieces of music criticism in American history. Faulkner claimed jazz "originally was the accompaniment of the voodoo dancer, stimulating the half-crazed barbarian to the vilest deeds." Analyze the rhetorical moves she makes. What anxieties — about race, gender, modernity, class — does her critique reveal? What does it mean that this appeared in a mainstream women\'s magazine?',
+        tag: 'Primary source + rhetorical analysis'
+      },
+      {
+        label: 'Sound design in Gatsby — close reading',
+        desc: 'Return to Chapter 3 (Gatsby\'s first party) and annotate every reference to sound: music, voices, laughter, the orchestra, silence. Make a list. Then ask: what is the relationship between the music and what\'s happening dramatically? When does Fitzgerald cut away from the music? When does he lean into it? What does the novel\'s "soundtrack" tell us about what the parties are really for?',
+        tag: 'Close reading'
+      }
+    ],
+    resources: [
+      {
+        type: 'Audio — 1928 original',
+        title: 'Louis Armstrong: "West End Blues" (1928)',
+        desc: 'Internet Archive — free streaming, public domain recording',
+        url: 'https://archive.org/details/LouisArmstrongHotFiveWestEndBlues'
+      },
+      {
+        type: 'Primary source — 1921',
+        title: '"Does Jazz Put the Sin in Syncopation?" — Faulkner',
+        desc: 'Full text of the 1921 Ladies\' Home Journal article',
+        url: 'https://web.viu.ca/davies/H322%20Between%20the%20Wars/Jazz.SinInSyncopation.1921.htm'
+      },
+      {
+        type: 'History',
+        title: 'The Mob Museum: Speakeasies of the 1920s',
+        desc: 'Jazz, speakeasies, and the culture they created together',
+        url: 'https://prohibition.themobmuseum.org/the-history/the-prohibition-underworld/the-speakeasies-of-the-1920s/'
+      }
+    ],
+    reflection: 'Fitzgerald writes that at Gatsby\'s party "the lights grow brighter as the earth lurches away from the sun." What is the relationship between the artificial brightness of Gatsby\'s world — his music, his lights, his spectacle — and the darkness that surrounds it? And knowing that this music came from Black artists who were often barred from the very venues where it was performed, what does it mean that white wealth dances to it?'
+  },
+
+  {
+    id: 'dream',
+    icon: '✨',
+    title: 'The American Dream in the 1920s',
+    subtitle: 'Myth, aspiration, and the green light',
+    tasks: ['Research the "self-made man" myth vs. data', 'Analyze 1920s advertising as aspirational rhetoric', 'Draft a synthesis essay thesis'],
+    intro: 'The phrase "American Dream" wasn\'t coined until 1931 — but the idea was everywhere in the 1920s. The decade seemed to prove it: anyone could get rich, anyone could reinvent themselves, anyone could make it. And yet the evidence of who actually got rich — and who remained in the Valley of Ashes — tells a different story. This is the module where all the threads of the webquest come together.',
+    gatsby: 'Gatsby IS the American Dream — and Fitzgerald is asking us to autopsy it. James Gatz becomes Jay Gatsby through sheer will and fabrication. He achieves wealth but never acceptance. He reaches for Daisy and grasps only air. The green light at the end of the dock is the novel\'s central symbol precisely because it represents something you can see but never touch. And the last page — "So we beat on, boats against the current, borne back ceaselessly into the past" — is Fitzgerald\'s verdict on the dream: it doesn\'t move you forward. It holds you in place.',
+    items: [
+      {
+        label: 'The self-made man myth — image vs. data',
+        desc: 'Research the "rags to riches" myth in American culture. Then consider: who actually got rich in the 1920s? Browse the Library of Congress "Prosperity and Thrift" collection for data and commentary on who benefited from 1920s prosperity. Fitzgerald himself came from a middle-class background and spent his entire life anxious about money, envious of the wealthy, and never quite belonging. How does his biography complicate Nick\'s narration?',
+        tag: 'Research + biographical context'
+      },
+      {
+        label: 'Advertising and aspiration — visual rhetoric',
+        desc: 'Return to Duke\'s Ad*Access archive and find two or three advertisements from 1920–1930 in any category. Analyze them not as ads for products but as ads for an identity and a way of life. What version of the American Dream do they sell? Who is the implied audience — and who is excluded from it? Connect your findings to at least one specific scene in Gatsby.',
+        tag: 'Visual rhetoric + textual connection'
+      },
+      {
+        label: 'Synthesis essay — draft your thesis',
+        desc: 'Read the PBS excerpt of Fitzgerald\'s "The Crack-Up" (1936), written after his own personal and financial collapse. Then draft a thesis for the following prompt: "The Great Gatsby is less a love story than an autopsy of the American Dream." Use evidence from both the novel and at least two sources from this webquest. Bring your draft for peer workshop. Your thesis should make a specific, arguable claim — not merely restate the prompt.',
+        tag: 'Synthesis writing'
+      }
+    ],
+    resources: [
+      {
+        type: 'Primary source — Fitzgerald',
+        title: '"The Crack-Up" — PBS American Masters excerpt',
+        desc: 'Fitzgerald on his own disillusionment, 1936 — free excerpt',
+        url: 'https://www.pbs.org/wnet/americanmasters/f-scott-fitzgerald-essay-the-crack-up/1028/'
+      },
+      {
+        type: 'Full text',
+        title: 'The Crack-Up — Full Collection (Archive.org)',
+        desc: 'Free to borrow — all three Esquire essays + letters',
+        url: 'https://archive.org/details/cerackup0000fsco'
+      },
+      {
+        type: 'LOC Collection',
+        title: 'Prosperity and Thrift: The Coolidge Era, 1921–1929',
+        desc: 'Library of Congress — who actually benefited from 1920s prosperity',
+        url: 'https://www.loc.gov/collections/coolidge-era-and-the-consumer-economy-1921-to-1929/about-this-collection/'
+      },
+      {
+        type: 'Archive',
+        title: 'Ad*Access — Aspirational Advertising, 1920–1930',
+        desc: 'Duke University — browse by year and category, free',
+        url: 'https://library.duke.edu/rubenstein/hartman/digitized'
+      }
+    ],
+    reflection: '"So we beat on, boats against the current, borne back ceaselessly into the past." This is the last line of the novel. After everything you\'ve researched — the bootleggers, the flappers, the jazz, the racial exclusions, the economic crash waiting just offstage — what do you think Fitzgerald is ultimately saying about America? Is he mourning the dream, exposing it, or both? And is he right?'
+  }
+];
+
+const TOTAL_TASKS = MODULES.reduce((sum, m) => sum + m.items.length, 0);
+let completedTasks = new Set(JSON.parse(sessionStorage.getItem('webquest_done') || '[]'));
+let activeModule = null;
+
+function saveTasks() {
+  sessionStorage.setItem('webquest_done', JSON.stringify([...completedTasks]));
+}
+
+function updateProgress() {
+  const pct = Math.round((completedTasks.size / TOTAL_TASKS) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('hero-done').textContent = completedTasks.size;
+}
+
+function renderNav() {
+  const nav = document.getElementById('nav-tabs');
+  const existing = nav.querySelector('.nav-tab');
+  // clear all but overview
+  while (nav.children.length > 1) nav.removeChild(nav.lastChild);
+  MODULES.forEach((m, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'nav-tab';
+    btn.id = 'nav-' + m.id;
+    btn.textContent = m.icon + ' ' + m.title.split(' ').slice(0,3).join(' ');
+    btn.onclick = () => openModule(i);
+    nav.appendChild(btn);
+  });
+}
+
+function renderCards() {
+  const grid = document.getElementById('modules-grid');
+  grid.innerHTML = '';
+  MODULES.forEach((m, i) => {
+    const done = m.items.filter((_, j) => completedTasks.has(`${m.id}-${j}`)).length;
+    const complete = done === m.items.length;
+    const card = document.createElement('div');
+    card.className = 'module-card' + (complete ? ' completed' : '');
+    card.onclick = () => openModule(i);
+    card.innerHTML = `
+      <div class="card-header">
+        <span class="card-icon">${m.icon}</span>
+        <span class="card-badge ${complete ? 'done' : ''}">${complete ? 'Complete' : done + '/' + m.items.length}</span>
+      </div>
+      <div class="card-title">${m.title}</div>
+      <div class="card-subtitle">${m.subtitle}</div>
+      <ul class="card-tasks-list">
+        ${m.tasks.map(t => `<li class="card-task-item">${t}</li>`).join('')}
+      </ul>`;
+    grid.appendChild(card);
+  });
+}
+
+function buildDetailPanels() {
+  const container = document.getElementById('detail-panels');
+  MODULES.forEach((m, i) => {
+    const panel = document.createElement('div');
+    panel.className = 'module-detail';
+    panel.id = 'panel-' + m.id;
+
+    const resourcesHTML = m.resources.map(r => `
+      <a class="resource-link" href="${r.url}" target="_blank" rel="noopener">
+        <div class="resource-type">${r.type}</div>
+        <div class="resource-title">${r.title} <em class="resource-arrow">↗</em></div>
+        <div class="resource-desc">${r.desc}</div>
+      </a>`).join('');
+
+    const tasksHTML = m.items.map((item, j) => {
+      const key = `${m.id}-${j}`;
+      const done = completedTasks.has(key);
+      return `
+        <div class="task-item ${done ? 'done' : ''}" id="task-${key}" onclick="toggleTask('${key}')">
+          <div class="task-check"><span class="task-check-mark">✓</span></div>
+          <div class="task-body">
+            <div class="task-title">${item.label}</div>
+            <p class="task-desc">${item.desc}</p>
+            <span class="task-tag">${item.tag}</span>
+          </div>
+        </div>`;
+    }).join('');
+
+    panel.innerHTML = `
+      <button class="back-btn" onclick="showOverview()">← Back to overview</button>
+      <div class="detail-header">
+        <div class="detail-icon">${m.icon}</div>
+        <div>
+          <div class="detail-title">${m.title}</div>
+          <div class="detail-subtitle">${m.subtitle}</div>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <div class="section-label">Historical context</div>
+        <p class="intro-text">${m.intro}</p>
+      </div>
+
+      <div class="gatsby-connection">
+        <div class="section-label">Gatsby connection</div>
+        <p>${m.gatsby}</p>
+      </div>
+
+      <div class="section-block">
+        <div class="section-label">Your tasks</div>
+        ${tasksHTML}
+      </div>
+
+      <div class="section-block">
+        <div class="section-label">Primary sources & resources</div>
+        <div class="resources-grid">${resourcesHTML}</div>
+      </div>
+
+      <div class="section-block">
+        <div class="section-label">Analytical reflection</div>
+        <div class="reflection-box">
+          <p class="reflection-text">${m.reflection}</p>
+        </div>
+      </div>`;
+
+    container.appendChild(panel);
+  });
+}
+
+function toggleTask(key) {
+  const el = document.getElementById('task-' + key);
+  if (completedTasks.has(key)) {
+    completedTasks.delete(key);
+    el.classList.remove('done');
+  } else {
+    completedTasks.add(key);
+    el.classList.add('done');
+  }
+  saveTasks();
+  updateProgress();
+  renderCards();
+}
+
+function openModule(i) {
+  const m = MODULES[i];
+  activeModule = i;
+
+  document.getElementById('overview-panel').style.display = 'none';
+  document.querySelectorAll('.module-detail').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + m.id).classList.add('active');
+
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  const tab = document.getElementById('nav-' + m.id);
+  if (tab) tab.classList.add('active');
+
+  window.scrollTo({ top: document.getElementById('main').offsetTop - 60, behavior: 'smooth' });
+}
+
+function showOverview() {
+  activeModule = null;
+  document.getElementById('overview-panel').style.display = '';
+  document.querySelectorAll('.module-detail').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('.nav-tab').classList.add('active');
+  window.scrollTo({ top: document.getElementById('main').offsetTop - 60, behavior: 'smooth' });
+}
+
+// INIT
+renderNav();
+buildDetailPanels();
+renderCards();
+updateProgress();
+</script>
+</body>
+</html>
